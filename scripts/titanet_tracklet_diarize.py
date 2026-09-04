@@ -824,7 +824,10 @@ def load_titanet_model(model_name: str, device: str):
     import numpy as np
 
     if not hasattr(np, "sctypes"):
-        np.sctypes = {"int": [np.int8, np.int16, np.int32, np.int64]}  # type: ignore[attr-defined]
+        np.sctypes = {  # type: ignore[attr-defined]
+            "int": [np.int8, np.int16, np.int32, np.int64],
+            "float": [np.float16, np.float32, np.float64],
+        }
     try:
         import nemo.collections.asr as nemo_asr
     except ImportError as exc:
