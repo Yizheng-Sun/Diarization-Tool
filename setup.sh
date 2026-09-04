@@ -45,6 +45,7 @@ PYTHON="${VENV_DIR}/bin/python"
 
 "${PYTHON}" -m pip install --upgrade pip "setuptools<81" wheel
 "${PYTHON}" -m pip install torch torchaudio
+"${PYTHON}" -m pip install "numpy>=1.22,<2"
 "${PYTHON}" -m pip install "Cython>=3.1,<4"
 "${PYTHON}" -m pip install --no-build-isolation youtokentome
 "${PYTHON}" -m pip install \
