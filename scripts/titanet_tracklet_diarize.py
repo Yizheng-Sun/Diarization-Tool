@@ -821,6 +821,10 @@ def write_manifest(path: Path, audio_path: Path, windows: list[EmbeddingWindow])
 
 def load_titanet_model(model_name: str, device: str):
     torch_mod = require_torch()
+    import numpy as np
+
+    if not hasattr(np, "sctypes"):
+        np.sctypes = {"int": [np.int8, np.int16, np.int32, np.int64]}  # type: ignore[attr-defined]
     try:
         import nemo.collections.asr as nemo_asr
     except ImportError as exc:
