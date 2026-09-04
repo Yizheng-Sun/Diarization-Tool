@@ -20,6 +20,7 @@ if ! command -v module >/dev/null 2>&1; then
 fi
 
 module load apps/binapps/ffmpeg/4.1.3
+module load gcc/13.3.0
 module load python/3.13.1
 
 if ! command -v python3 >/dev/null 2>&1; then
