@@ -3,9 +3,34 @@ set -u
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+PYTHON="${REPO_ROOT}/.venv/bin/python"
 
-SUBTITLE_DIR="${1:-/mnt/iusers01/fatpou01/compsci01/f16685tf/scratch/subtitles}"
-VIDEO_DIR="${2:-/mnt/iusers01/fatpou01/compsci01/f16685tf/scratch/videos}"
+if ! command -v module >/dev/null 2>&1; then
+  for module_init in /etc/profile.d/modules.sh /usr/share/Modules/init/bash; do
+    if [[ -f "${module_init}" ]]; then
+      # shellcheck disable=SC1090
+      source "${module_init}"
+      break
+    fi
+  done
+fi
+
+if ! command -v module >/dev/null 2>&1; then
+  echo "Environment Modules is unavailable; load gcc, Python, and ffmpeg manually before running this script." >&2
+  exit 1
+fi
+
+module load gcc/13.3.0
+module load python/3.13.1
+module load apps/binapps/ffmpeg/4.1.3
+
+if [[ ! -x "${PYTHON}" ]]; then
+  echo "Project virtualenv not found: ${PYTHON}. Run setup.sh first." >&2
+  exit 1
+fi
+
+SUBTITLE_DIR="${1:-/mnt/eps01-rds/Riza-Batista-Group/y39410ys/BBC-AVS-Dataset-ERA/subtitles}"
+VIDEO_DIR="${2:-/mnt/eps01-rds/Riza-Batista-Group/y39410ys/BBC-AVS-Dataset-ERA/data}"
 
 SPEAKER_MODEL="nvidia/speakerverification_en_titanet_large"
 CLUSTERING_METHOD="constrained-spectral"
@@ -81,7 +106,7 @@ for subtitle_path in "${subtitle_files[@]}"; do
     XDG_CACHE_HOME="${REPO_ROOT}/.cache/xdg" \
     MPLCONFIGDIR="${REPO_ROOT}/.cache/matplotlib" \
     NEMO_CACHE_DIR="${REPO_ROOT}/.cache/nemo" \
-    python "${REPO_ROOT}/scripts/titanet_tracklet_diarize.py" \
+    "${PYTHON}" "${REPO_ROOT}/scripts/titanet_tracklet_diarize.py" \
       --subtitle "${subtitle_path}" \
       --video "${video_path}" \
       --output-rttm "${output_rttm}" \
