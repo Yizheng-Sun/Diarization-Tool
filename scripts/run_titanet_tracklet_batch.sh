@@ -4,8 +4,8 @@ set -u
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
-SUBTITLE_DIR="${1:-/mnt/eps01-rds/Riza-Batista-Group/y39410ys/BBC-AVS-Dataset-ERA/subtitles}"
-VIDEO_DIR="${2:-/mnt/eps01-rds/Riza-Batista-Group/y39410ys/BBC-AVS-Dataset-ERA/data}"
+SUBTITLE_DIR="${1:-/mnt/iusers01/fatpou01/compsci01/f16685tf/scratch/subtitles}"
+VIDEO_DIR="${2:-/mnt/iusers01/fatpou01/compsci01/f16685tf/scratch/videos}"
 
 SPEAKER_MODEL="nvidia/speakerverification_en_titanet_large"
 CLUSTERING_METHOD="constrained-spectral"
